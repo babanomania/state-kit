@@ -53,3 +53,8 @@ export { OfflineState } from "./components/OfflineState";
 export type { OfflineStateProps } from "./components/OfflineState";
 export { ReconnectingState } from "./components/ReconnectingState";
 export type { ReconnectingStateProps } from "./components/ReconnectingState";
+
+export { AccessDeniedState } from "./components/AccessDeniedState";
+export type { AccessDeniedStateProps, AccessDeniedVariant } from "./components/AccessDeniedState";
+export { SessionExpiredState } from "./components/SessionExpiredState";
+export type { SessionExpiredStateProps, SessionExpiredVariant } from "./components/SessionExpiredState";
