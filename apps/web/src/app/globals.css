@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Motion gallery "pause all" control — manual, distinct from prefers-reduced-motion. */
+.sk-paused * {
+  animation-play-state: paused !important;
+}
