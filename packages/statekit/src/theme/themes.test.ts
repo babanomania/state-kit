@@ -37,3 +37,16 @@ describe("built-in themes reproduce prototype shadow/glow exactly", () => {
     });
   }
 });
+
+describe("text color contrast accounts for surface translucency", () => {
+  it("glass theme's mostly-transparent white surface still gets light text (it sits on a dark stage)", () => {
+    expect(themes.glass.cssVars["--sk-text"]).toBe("#f3f3f6");
+    expect(themes.glass.cssVars["--sk-muted"]).toBe("#a7a7b4");
+  });
+
+  it("opaque dark surfaces (minimal, neon, enterprise) get light text", () => {
+    expect(themes.minimal.cssVars["--sk-text"]).toBe("#f3f3f6");
+    expect(themes.neon.cssVars["--sk-text"]).toBe("#f3f3f6");
+    expect(themes.enterprise.cssVars["--sk-text"]).toBe("#f3f3f6");
+  });
+});

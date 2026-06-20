@@ -9,12 +9,18 @@ function hexToRgb(hex: string): [number, number, number] | null {
   return null;
 }
 
-function parseColor(color: string): [number, number, number] | null {
-  if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) return hexToRgb(color);
-  const rgb = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
-  if (rgb) return [Number(rgb[1]), Number(rgb[2]), Number(rgb[3])];
+function parseColor(color: string): [number, number, number, number] | null {
+  if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) {
+    const rgb = hexToRgb(color);
+    return rgb ? [...rgb, 1] : null;
+  }
+  const rgba = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\)/i);
+  if (rgba) return [Number(rgba[1]), Number(rgba[2]), Number(rgba[3]), rgba[4] !== undefined ? Number(rgba[4]) : 1];
   return null;
 }
+
+/** Themes' translucent surfaces are designed to sit on a dark stage — used to composite alpha before reading luminance. */
+const DARK_BACKDROP: [number, number, number] = [10, 10, 14];
 
 /** Gradients aren't a valid <color>, so glow/shadow derivation uses the gradient's first stop. */
 export function resolveAccentColor(accent: string): string {
@@ -30,11 +36,25 @@ export function withAlpha(color: string, percent: number): string {
   return `rgba(${r},${g},${b},${percent / 100})`;
 }
 
-/** WCAG relative luminance, used to pick readable text against an arbitrary surface/accent color. */
+/**
+ * WCAG relative luminance, used to pick readable text against an arbitrary surface/accent color.
+ * Translucent colors (alpha < 1) are alpha-composited over DARK_BACKDROP first — a surface like
+ * glass's `rgba(255,255,255,0.08)` is visually dark (mostly the dark stage showing through), even
+ * though its raw RGB is white.
+ */
 export function relativeLuminance(color: string): number {
-  const rgb = parseColor(color);
-  if (!rgb) return 0;
-  const [r, g, b] = rgb.map((c) => {
+  const parsed = parseColor(color);
+  if (!parsed) return 0;
+  const [r0, g0, b0, a] = parsed;
+  const composited: [number, number, number] =
+    a < 1
+      ? [
+          r0 * a + DARK_BACKDROP[0] * (1 - a),
+          g0 * a + DARK_BACKDROP[1] * (1 - a),
+          b0 * a + DARK_BACKDROP[2] * (1 - a),
+        ]
+      : [r0, g0, b0];
+  const [r, g, b] = composited.map((c) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
   });

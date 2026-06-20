@@ -39,7 +39,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
     case "spin":
       return (
         <svg width="52" height="52" viewBox="0 0 56 56" fill="none" className="animate-sk-spin">
-          <circle cx="28" cy="28" r="22" stroke="#2a2a35" strokeWidth="3.5" />
+          <circle cx="28" cy="28" r="22" className="stroke-[#e7e7e2] dark:stroke-[#2a2a35]" strokeWidth="3.5" />
           <path d="M28 6 a22 22 0 0 1 22 22" stroke="#8b7cff" strokeWidth="3.5" strokeLinecap="round" />
         </svg>
       );
@@ -52,7 +52,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
           <div className="absolute inset-4 animate-sk-orbit-a-rev">
             <div className="absolute left-1/2 top-[-3px] h-[9px] w-[9px] -translate-x-1/2 rounded-full bg-[#4fd6e0] shadow-[0_0_10px_#4fd6e0]" />
           </div>
-          <div className="absolute inset-[34px] rounded-full bg-[#2a2a35]" />
+          <div className="absolute inset-[34px] rounded-full bg-[#e7e7e2] dark:bg-[#2a2a35]" />
         </div>
       );
     case "shimmer":
@@ -62,14 +62,14 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
             <div
               key={w}
               style={{ width: w, animationDelay: `${i * 0.15}s` }}
-              className="h-3 rounded bg-gradient-to-r from-[#15151c] via-[#2a2a35] to-[#15151c] bg-[length:200%_100%] animate-sk-shimmer"
+              className="h-3 rounded bg-gradient-to-r from-[#e7e7e2] via-[#f2f2ef] to-[#e7e7e2] dark:from-[#15151c] dark:via-[#2a2a35] dark:to-[#15151c] bg-[length:200%_100%] animate-sk-shimmer"
             />
           ))}
         </div>
       );
     case "progress":
       return (
-        <div className="relative h-2 w-[200px] overflow-hidden rounded-full bg-[#15151c]">
+        <div className="relative h-2 w-[200px] overflow-hidden rounded-full bg-[#e7e7e2] dark:bg-[#15151c]">
           <div className="absolute left-0 top-0 h-full w-[32%] rounded-full bg-gradient-to-r from-[#8b7cff] to-[#4fd6e0] animate-sk-prog" />
         </div>
       );
@@ -116,7 +116,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
             <span
               key={i}
               style={{ animationDelay: `${i * 0.3}s` }}
-              className={`text-[46px] font-bold animate-sk-glitch ${i === 1 ? "text-[#8b7cff]" : "text-[#e9e9ef]"}`}
+              className={`text-[46px] font-bold animate-sk-glitch ${i === 1 ? "text-[#8b7cff]" : "text-[#1a1a1d] dark:text-[#e9e9ef]"}`}
             >
               {ch}
             </span>
@@ -137,9 +137,9 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
     case "fail":
       return (
         <div className="flex w-[200px] flex-col gap-2">
-          <div className="h-3.5 rounded-md bg-[#13131a]" />
+          <div className="h-3.5 rounded-md bg-[#f3f3ef] dark:bg-[#13131a]" />
           <div className="h-3.5 rounded-md border border-[#f7768e]/[35%] bg-[#f7768e]/[10%] animate-sk-failpulse" />
-          <div className="h-3.5 rounded-md bg-[#13131a]" />
+          <div className="h-3.5 rounded-md bg-[#f3f3ef] dark:bg-[#13131a]" />
           <div
             style={{ animationDelay: "0.9s" }}
             className="h-3.5 rounded-md border border-[#f7768e]/[35%] bg-[#f7768e]/[10%] animate-sk-failpulse"
@@ -167,7 +167,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
       return (
         <div className="relative flex h-[62px] w-[62px] items-center justify-center">
           <svg width="62" height="62" viewBox="0 0 64 64" fill="none" className="-rotate-90">
-            <circle cx="32" cy="32" r="27" stroke="#2a2a35" strokeWidth="4" />
+            <circle cx="32" cy="32" r="27" className="stroke-[#e7e7e2] dark:stroke-[#2a2a35]" strokeWidth="4" />
             <circle
               cx="32"
               cy="32"
@@ -186,7 +186,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
       return (
         <div className="animate-sk-float">
           <svg width="56" height="56" viewBox="0 0 58 58" fill="none">
-            <rect x="7" y="7" width="44" height="44" rx="10" stroke="#6f6f7e" strokeWidth="2.2" strokeDasharray="7 6" className="animate-sk-dash" />
+            <rect x="7" y="7" width="44" height="44" rx="10" strokeWidth="2.2" strokeDasharray="7 6" className="animate-sk-dash stroke-[#9a9aa2] dark:stroke-[#6f6f7e]" />
             <line x1="29" y1="20" x2="29" y2="38" stroke="#8b7cff" strokeWidth="2.6" strokeLinecap="round" />
             <line x1="20" y1="29" x2="38" y2="29" stroke="#8b7cff" strokeWidth="2.6" strokeLinecap="round" />
           </svg>
@@ -198,7 +198,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
           {[0, 0.25, 0.5].map((delay) => (
             <div key={delay} style={{ animationDelay: `${delay}s` }} className="flex items-center gap-2.5 animate-sk-fadeloop">
               <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#8b7cff] to-[#4fd6e0]" />
-              <div className="h-[9px] flex-1 rounded bg-[#33333d]" />
+              <div className="h-[9px] flex-1 rounded bg-[#cfcfca] dark:bg-[#33333d]" />
             </div>
           ))}
         </div>
@@ -231,7 +231,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
       return (
         <div className="relative flex h-16 w-16 items-center justify-center">
           <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="-rotate-90">
-            <circle cx="32" cy="32" r="27" stroke="#2a2a35" strokeWidth="5" />
+            <circle cx="32" cy="32" r="27" className="stroke-[#e7e7e2] dark:stroke-[#2a2a35]" strokeWidth="5" />
             <circle
               cx="32"
               cy="32"
@@ -248,13 +248,13 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
       );
     case "spring":
       return (
-        <div className="flex items-center gap-[11px] rounded-xl border border-white/10 bg-[#13131a] px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.22)] animate-sk-spring">
+        <div className="flex items-center gap-[11px] rounded-xl border border-black/10 bg-[#f3f3ef] px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.22)] animate-sk-spring dark:border-white/10 dark:bg-[#13131a]">
           <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#5ec98a]/[18%]">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M5 13 L10 18 L19 7" stroke="#5ec98a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span className="text-[13px] font-medium text-[#e9e9ef]">Changes saved</span>
+          <span className="text-[13px] font-medium text-[#1a1a1d] dark:text-[#e9e9ef]">Changes saved</span>
         </div>
       );
     case "shake":
@@ -290,7 +290,7 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
       );
     case "type":
       return (
-        <div className="flex items-center font-mono text-[15px] text-[#e9e9ef]">
+        <div className="flex items-center font-mono text-[15px] text-[#1a1a1d] dark:text-[#e9e9ef]">
           <div className="animate-sk-type overflow-hidden whitespace-nowrap">Generating answer</div>
           <span className="ml-[3px] h-[18px] w-2 bg-[#8b7cff] animate-sk-caret" />
         </div>
@@ -298,17 +298,17 @@ function MotionVisual({ motionKey }: { motionKey: string }) {
     case "odometer":
       return (
         <div className="flex items-end gap-0.5 font-mono font-bold">
-          <span className="text-3xl text-[#e9e9ef]">$</span>
+          <span className="text-3xl text-[#1a1a1d] dark:text-[#e9e9ef]">$</span>
           <div className="h-[30px] overflow-hidden">
             <div className="animate-sk-roll">
               {["0", "3", "8"].map((d) => (
-                <div key={d} className="h-[30px] text-3xl leading-[30px] text-[#e9e9ef]">
+                <div key={d} className="h-[30px] text-3xl leading-[30px] text-[#1a1a1d] dark:text-[#e9e9ef]">
                   {d}
                 </div>
               ))}
             </div>
           </div>
-          <span className="text-3xl text-[#e9e9ef]">,200</span>
+          <span className="text-3xl text-[#1a1a1d] dark:text-[#e9e9ef]">,200</span>
         </div>
       );
     default:
@@ -320,13 +320,13 @@ export function MotionGallery() {
   const [paused, setPaused] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#07070a] px-10 py-16 font-sans text-[#e9e9ef]">
+    <main className="min-h-[calc(100vh-65px)] px-10 py-16">
       <header className="mb-10 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">StateKit — Motion Gallery</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Motion Gallery</h1>
         <button
           type="button"
           onClick={() => setPaused((p) => !p)}
-          className="rounded-lg border border-white/10 bg-[#101016] px-3.5 py-2 text-[13px]"
+          className="rounded-lg border border-black/10 bg-black/[0.03] px-3.5 py-2 text-[13px] dark:border-white/10 dark:bg-[#101016]"
         >
           {paused ? "Play all" : "Pause all"}
         </button>
@@ -334,21 +334,18 @@ export function MotionGallery() {
 
       <section className={`grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3 ${paused ? "sk-paused" : ""}`}>
         {ITEMS.map((item) => (
-          <div key={item.key} className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d12]">
-            <div
-              className="flex h-[184px] items-center justify-center overflow-hidden border-b border-white/[0.06] p-6"
-              style={{ background: "radial-gradient(ellipse at 50% 38%, #131319, #0a0a0e)" }}
-            >
+          <div key={item.key} className="overflow-hidden rounded-2xl border border-black/[0.07] bg-white dark:border-white/10 dark:bg-[#0d0d12]">
+            <div className="flex h-[184px] items-center justify-center overflow-hidden border-b border-black/[0.06] bg-[radial-gradient(ellipse_at_50%_38%,#f7f7f4,#eeeeea)] p-6 dark:border-white/[0.06] dark:bg-[radial-gradient(ellipse_at_50%_38%,#131319,#0a0a0e)]">
               <MotionVisual motionKey={item.key} />
             </div>
             <div className="p-4">
               <div className="mb-1.5 flex items-center justify-between">
                 <span className="text-[15px] font-semibold">{item.name}</span>
-                <span className="rounded-md border border-white/[0.07] px-2 py-1 font-mono text-[10px] text-[#6f6f7e]">
+                <span className="rounded-md border border-black/[0.07] px-2 py-1 font-mono text-[10px] text-[#9a9aa2] dark:border-white/[0.07] dark:text-[#6f6f7e]">
                   {item.tag}
                 </span>
               </div>
-              <div className="text-[12.5px] leading-relaxed text-[#9c9caa]">{item.desc}</div>
+              <div className="text-[12.5px] leading-relaxed text-[#5d5d66] dark:text-[#9c9caa]">{item.desc}</div>
             </div>
           </div>
         ))}

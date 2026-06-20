@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { SiteNav } from "../components/SiteNav";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -21,8 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`dark ${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
+      <body className="bg-[#f3f3f0] font-sans text-[#1a1a1d] dark:bg-[#07070a] dark:text-[#e9e9ef]">
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }
