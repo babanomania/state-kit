@@ -78,3 +78,8 @@ export { RateLimitedState } from "./components/RateLimitedState";
 export type { RateLimitedStateProps } from "./components/RateLimitedState";
 export { QuotaExceededState } from "./components/QuotaExceededState";
 export type { QuotaExceededStateProps } from "./components/QuotaExceededState";
+
+export { StateBoundary } from "./components/StateBoundary";
+export type { StateBoundaryProps } from "./components/StateBoundary";
+export { DataStateBoundary } from "./components/DataStateBoundary";
+export type { DataStateBoundaryProps } from "./components/DataStateBoundary";
