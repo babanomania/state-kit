@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         "sk-accent": "var(--sk-accent)",
+        "sk-accent-solid": "var(--sk-accent-solid)",
         "sk-surface": "var(--sk-surface)",
         "sk-border": "var(--sk-border)",
         "sk-text": "var(--sk-text)",

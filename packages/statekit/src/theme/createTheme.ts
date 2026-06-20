@@ -20,6 +20,7 @@ export function createTheme(tokens: ThemeTokens, name = "custom"): Theme {
     "--sk-icon-glow": iconGlow,
     "--sk-btn-glow": btnGlow,
     "--sk-icon-bg": withAlpha(accentColor, 14),
+    "--sk-accent-solid": accentColor,
     "--sk-btn-bg": accent,
     "--sk-text": onDarkSurface ? "#f3f3f6" : "#1a1a1d",
     "--sk-muted": onDarkSurface ? "#a7a7b4" : "#5d5d66",
