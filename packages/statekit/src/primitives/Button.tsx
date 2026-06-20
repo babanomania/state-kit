@@ -5,11 +5,13 @@ import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 export type ButtonTone = "accent" | "error" | "warning" | "success";
 export type ButtonVariant = "solid" | "outline";
 
-export interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ActionButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "href"> {
   tone?: ButtonTone;
   variant?: ButtonVariant;
   icon?: ReactNode;
   children: ReactNode;
+  /** Renders as a real <a> instead of a <button> for navigation-only actions (e.g. a status page link). */
+  href?: string;
 }
 
 const outlineTones: Record<ButtonTone, CSSProperties> = {
@@ -19,7 +21,7 @@ const outlineTones: Record<ButtonTone, CSSProperties> = {
   success: { color: "#5ec98a", background: "rgba(94,201,138,0.1)", borderColor: "rgba(94,201,138,0.2)" },
 };
 
-/** Real <button>, themeable via CSS vars for the "accent" solid case — never a hardcoded theme color. */
+/** Real <button> (or <a> when `href` is given), themeable via CSS vars for the "accent" solid case. */
 export function ActionButton({
   tone = "accent",
   variant = "solid",
@@ -27,26 +29,27 @@ export function ActionButton({
   children,
   className,
   style,
+  href,
   ...rest
 }: ActionButtonProps) {
-  if (variant === "solid" && tone === "accent") {
+  const isSolidAccent = variant === "solid" && tone === "accent";
+  const resolvedClassName = isSolidAccent
+    ? `inline-flex items-center gap-2 rounded-[10px] px-[18px] py-[9px] text-[13px] font-medium shadow-sk-btn transition-opacity hover:opacity-90 ${className ?? ""}`
+    : `inline-flex items-center gap-2 rounded-[10px] border px-[18px] py-[9px] text-[13px] font-medium transition-opacity hover:opacity-90 ${className ?? ""}`;
+  const resolvedStyle = isSolidAccent
+    ? { background: "var(--sk-btn-bg)", color: "var(--sk-btn-text)", ...style }
+    : { ...outlineTones[tone], ...style };
+
+  if (href) {
     return (
-      <button
-        {...rest}
-        className={`inline-flex items-center gap-2 rounded-[10px] px-[18px] py-[9px] text-[13px] font-medium shadow-sk-btn transition-opacity hover:opacity-90 ${className ?? ""}`}
-        style={{ background: "var(--sk-btn-bg)", color: "var(--sk-btn-text)", ...style }}
-      >
+      <a href={href} className={resolvedClassName} style={resolvedStyle}>
         {icon}
         {children}
-      </button>
+      </a>
     );
   }
   return (
-    <button
-      {...rest}
-      className={`inline-flex items-center gap-2 rounded-[10px] border px-[18px] py-[9px] text-[13px] font-medium transition-opacity hover:opacity-90 ${className ?? ""}`}
-      style={{ ...outlineTones[tone], ...style }}
-    >
+    <button {...rest} className={resolvedClassName} style={resolvedStyle}>
       {icon}
       {children}
     </button>
