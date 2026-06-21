@@ -44,6 +44,7 @@ export function SiteNav() {
         </div>
         <button
           type="button"
+          data-testid="theme-toggle"
           onClick={toggle}
           className="rounded-lg border border-black/[0.08] px-3 py-1.5 text-[12px] font-medium text-[#5d5d66] transition-colors hover:text-[#1a1a1d] dark:border-white/10 dark:text-[#9c9caa] dark:hover:text-[#e9e9ef]"
         >

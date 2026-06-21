@@ -51,7 +51,7 @@ export function ComponentsBrowser() {
           </div>
         </div>
 
-        <nav className="px-3.5 pb-10 pt-2">
+        <nav data-testid="component-nav" className="px-3.5 pb-10 pt-2">
           {groups.map((grp) => (
             <div key={grp.cat} className="mb-[18px]">
               <div className="flex items-center justify-between px-2 pb-2">
@@ -116,7 +116,7 @@ export function ComponentsBrowser() {
           <div className="mb-3.5 overflow-hidden rounded-2xl border border-black/[0.11] dark:border-white/10">
             <div className="flex items-center justify-between border-b border-black/[0.07] bg-white px-4 py-[11px] dark:border-white/[0.07] dark:bg-[#0c0c11]">
               <span className="font-mono text-[11px] text-[#9a9aa2] dark:text-[#6f6f7e]">preview</span>
-              <div className="flex flex-wrap gap-1.5">
+              <div data-testid="variant-switcher" className="flex flex-wrap gap-1.5">
                 {selected.variantLabels.map((label, i) => {
                   const active = i === activeVariant;
                   return (
@@ -137,6 +137,7 @@ export function ComponentsBrowser() {
               </div>
             </div>
             <div
+              data-testid="preview-stage"
               className="flex min-h-[300px] items-center justify-center p-10"
               style={{ background: "radial-gradient(ellipse at 50% 35%, var(--stage1), var(--stage2))" }}
             >

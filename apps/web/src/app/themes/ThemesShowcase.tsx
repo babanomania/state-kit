@@ -62,7 +62,7 @@ export function ThemesShowcase() {
 
       {/* SWITCHER + STAGE */}
       <section className="mx-auto max-w-[1100px] pb-10">
-        <div className="mb-7 flex flex-wrap justify-center gap-2">
+        <div data-testid="theme-switcher" className="mb-7 flex flex-wrap justify-center gap-2">
           {THEME_META.map((t) => {
             const active = t.id === selected;
             return (
@@ -96,7 +96,7 @@ export function ThemesShowcase() {
           </div>
 
           <StateProvider theme={selected}>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div data-testid="theme-stage" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <ThemeCard>
                 <Spinner size={44} />
                 <div>
