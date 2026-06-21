@@ -217,11 +217,11 @@ export function LandingPage() {
           <h2 className="mb-3 text-[42px] font-semibold tracking-[-0.03em]">50+ states for real scenarios.</h2>
           <p className="text-[17px] text-[#5d5d66] dark:text-[#9c9caa]">Every one animated, themeable, and production-ready.</p>
         </div>
-        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+        <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {GALLERY.map((g) => (
             <div
               key={g.title}
-              className="mb-4 break-inside-avoid rounded-2xl border border-black/[0.07] bg-white p-6 transition-colors hover:border-[#8b7cff]/40 dark:border-white/[0.07] dark:bg-[#0d0d12]"
+              className="rounded-2xl border border-black/[0.07] bg-white p-6 transition-colors hover:border-[#8b7cff]/40 dark:border-white/[0.07] dark:bg-[#0d0d12]"
             >
               <div className="mb-3.5 flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full" style={{ background: g.dot }} />

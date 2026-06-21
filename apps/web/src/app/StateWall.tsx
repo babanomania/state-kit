@@ -288,7 +288,7 @@ export function StateWall() {
           className="flex flex-col items-center justify-center gap-1.5 rounded-[10px] border border-black/[0.08] bg-white dark:border-white/[0.07] dark:bg-[#0d0d12]"
         >
           {tile.icon}
-          <span className="font-mono text-[9px] text-[#9a9aa2] dark:text-[#6f6f7e]">{tile.label}</span>
+          <span className="font-mono text-[9px] text-[#5d5d66] dark:text-[#6f6f7e]">{tile.label}</span>
         </div>
       ))}
     </div>
