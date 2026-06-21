@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { StateProvider } from "statekit";
+import { StateProvider } from "@babanomania/statekit";
 import { CATALOG, CATEGORY_ORDER, type CatalogEntry } from "../../lib/componentCatalog";
 
 export function ComponentsBrowser() {
@@ -109,7 +109,7 @@ export function ComponentsBrowser() {
             {"import { "}
             {selected.name}
             {" } from "}
-            <span className="text-[#5ec98a]">&apos;statekit&apos;</span>
+            <span className="text-[#5ec98a]">&apos;@babanomania/statekit&apos;</span>
           </div>
 
           {/* PREVIEW STAGE */}

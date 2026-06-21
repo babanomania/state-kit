@@ -32,7 +32,7 @@ import {
   ValidationErrorState,
   WaveLoader,
   WidgetState,
-} from "statekit";
+} from "@babanomania/statekit";
 
 const noop = () => {};
 /** Fixed reference instants so previews are deterministic across server/client renders. */

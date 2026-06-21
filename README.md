@@ -3,7 +3,7 @@
 StateKit — a themeable, animated React component library for application states (loading, empty,
 error, offline, success, and more), plus the site that documents and showcases it.
 
-- **`packages/statekit`** — the publishable `statekit` npm package. See its
+- **`packages/statekit`** — the publishable `@babanomania/statekit` npm package. See its
   [README](packages/statekit/README.md) for install/usage.
 - **`apps/web`** — the Next.js marketing site, Components/Motion/Themes docs, deployed to GitHub
   Pages at https://babanomania.github.io/state-kit/.
@@ -23,10 +23,10 @@ pnpm test
 ## Releasing the library
 
 This repo uses [Changesets](https://github.com/changesets/changesets) to version and publish
-`statekit`.
+`@babanomania/statekit`.
 
 1. After a PR that changes `packages/statekit`, run `pnpm changeset` and describe the change. Commit
    the generated `.changeset/*.md` file with the PR.
 2. Merging to `main` triggers a "Version Packages" PR (via `changesets/action`) that bumps the
    package version and updates its changelog.
-3. Merging that Version PR publishes `statekit` to npm.
+3. Merging that Version PR publishes `@babanomania/statekit` to npm.

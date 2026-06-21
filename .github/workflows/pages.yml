@@ -28,8 +28,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter statekit build
-      - run: pnpm --filter web build
+      - run: pnpm --filter "./packages/statekit" build
+      - run: pnpm --filter "./apps/web" build
         env:
           NEXT_PUBLIC_DEPLOY_TARGET: github-pages
 

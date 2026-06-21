@@ -45,6 +45,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Fallback auth — replace with npm Trusted Publishing (OIDC) once the package
           # exists and is registered as a trusted publisher for this repo/workflow, which
-          # removes the need for this token entirely.
+          # removes the need for this token entirely. changesets/action checks NPM_TOKEN
+          # specifically to decide whether to attempt OIDC; NODE_AUTH_TOKEN is what the
+          # npm CLI itself reads (via the .npmrc actions/setup-node's registry-url sets up).
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true

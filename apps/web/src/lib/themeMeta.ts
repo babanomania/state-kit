@@ -1,4 +1,4 @@
-import type { ThemeName } from "statekit";
+import type { ThemeName } from "@babanomania/statekit";
 
 export interface ThemeMeta {
   id: ThemeName;

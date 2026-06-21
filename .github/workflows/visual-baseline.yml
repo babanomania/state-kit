@@ -22,7 +22,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter statekit build
+      - run: pnpm --filter "./packages/statekit" build
 
       - name: Install Playwright browsers
         working-directory: apps/web

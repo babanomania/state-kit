@@ -1,5 +1,5 @@
 {
-  "name": "statekit",
+  "name": "@babanomania/statekit",
   "version": "0.1.0",
   "description": "50+ application states — loading, empty, error, offline, success, and more — as animated, themeable, production-ready React components.",
   "license": "MIT",

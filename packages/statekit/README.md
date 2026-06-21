@@ -1,4 +1,4 @@
-# statekit
+# @babanomania/statekit
 
 Build Better States. 50+ application states — loading, empty, error, offline, success, and more —
 as animated, themeable, production-ready React components.
@@ -6,14 +6,14 @@ as animated, themeable, production-ready React components.
 ## Install
 
 ```bash
-npm install statekit
+npm install @babanomania/statekit
 ```
 
 ## Quickstart
 
 ```tsx
-import { StateProvider, Spinner } from "statekit";
-import "statekit/styles.css";
+import { StateProvider, Spinner } from "@babanomania/statekit";
+import "@babanomania/statekit/styles.css";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ Wrap a data fetch once — it renders the right state automatically (loading, er
 with built-in retry and offline detection:
 
 ```tsx
-import { DataStateBoundary } from "statekit";
+import { DataStateBoundary } from "@babanomania/statekit";
 
 function Users() {
   const { data, loading, error, refetch } = useUsers();

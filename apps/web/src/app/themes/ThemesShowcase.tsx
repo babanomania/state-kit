@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { EmptyState, ErrorState, Spinner, StateProvider, SuccessState, themes, type ThemeName } from "statekit";
+import { EmptyState, ErrorState, Spinner, StateProvider, SuccessState, themes, type ThemeName } from "@babanomania/statekit";
 import { THEME_META } from "../../lib/themeMeta";
 
 const noop = () => {};
@@ -40,9 +40,9 @@ export function ThemesShowcase() {
     { label: "Elevation", value: tokens.elevation },
   ];
 
-  const providerSnippet = `import { StateProvider } from 'statekit'\n\n<StateProvider theme="${selected}">\n  <App />\n</StateProvider>`;
+  const providerSnippet = `import { StateProvider } from '@babanomania/statekit'\n\n<StateProvider theme="${selected}">\n  <App />\n</StateProvider>`;
   const overrideSnippet = `<ErrorState theme="${selected}" />`;
-  const createSnippet = `import { createTheme } from 'statekit'\n\nexport const ${selected} = createTheme({\n  accent: '${tokens.accent}',\n  surface: '${tokens.surface}',\n  border: '${tokens.border}',\n  radius: ${tokens.radius},\n  blur: ${tokens.blur},\n  elevation: '${tokens.elevation}',\n})`;
+  const createSnippet = `import { createTheme } from '@babanomania/statekit'\n\nexport const ${selected} = createTheme({\n  accent: '${tokens.accent}',\n  surface: '${tokens.surface}',\n  border: '${tokens.border}',\n  radius: ${tokens.radius},\n  blur: ${tokens.blur},\n  elevation: '${tokens.elevation}',\n})`;
 
   return (
     <main className="px-10 py-16">

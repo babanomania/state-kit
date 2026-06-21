@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { EmptyState, ErrorState, OfflineState, PartialFailureState, Spinner, StateProvider, WidgetState, themes, type ThemeName } from "statekit";
+import { EmptyState, ErrorState, OfflineState, PartialFailureState, Spinner, StateProvider, WidgetState, themes, type ThemeName } from "@babanomania/statekit";
 import { THEME_META } from "../lib/themeMeta";
 import { StateWall } from "./StateWall";
 
@@ -114,7 +114,7 @@ export function LandingPage() {
                   Explore Components →
                 </Link>
                 <div className="flex items-center gap-2.5 rounded-[10px] border border-black/[0.13] bg-black/[0.04] px-[22px] py-[13px] font-mono text-[15px] dark:border-white/10 dark:bg-white/[0.04]">
-                  npm i statekit
+                  npm i @babanomania/statekit
                 </div>
               </div>
             </div>
