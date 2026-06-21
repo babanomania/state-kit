@@ -16,4 +16,9 @@ describe("ProgressLoader", () => {
     expect(bar).toHaveAttribute("aria-valuemax", "100");
     expect(screen.getByText("Uploading")).toBeInTheDocument();
   });
+
+  it("falls back to a generic accessible name when no label is given", () => {
+    render(<ProgressLoader variant="linear" value={50} />);
+    expect(screen.getByRole("progressbar")).toHaveAttribute("aria-label", "Progress");
+  });
 });

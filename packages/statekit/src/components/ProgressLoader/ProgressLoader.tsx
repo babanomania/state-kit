@@ -22,7 +22,7 @@ export function ProgressLoader({ variant = "indeterminate", value, label, theme 
         aria-valuenow={determinate ? value : undefined}
         aria-valuemin={determinate ? 0 : undefined}
         aria-valuemax={determinate ? 100 : undefined}
-        aria-label={determinate ? label : undefined}
+        aria-label={determinate ? (label ?? "Progress") : undefined}
       >
         <div className="relative h-2 overflow-hidden rounded-full" style={{ background: "var(--sk-border)" }}>
           <div
