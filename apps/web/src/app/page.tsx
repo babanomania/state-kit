@@ -1,5 +1,5 @@
-import { ThemeDemo } from "./ThemeDemo";
+import { LandingPage } from "./LandingPage";
 
 export default function HomePage() {
-  return <ThemeDemo />;
+  return <LandingPage />;
 }
