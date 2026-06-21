@@ -17,10 +17,14 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "pnpm dev -- --port 3100",
+    // PORT env var rather than a `--port` CLI arg — forwarding flags through `pnpm dev --
+    // --port 3100` is unreliable (pnpm/Next arg-parsing can mangle it into a bogus directory
+    // argument); Next.js's CLI honors PORT directly, with no argv ambiguity.
+    command: "pnpm dev",
     url: "http://127.0.0.1:3100",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    env: { PORT: "3100" },
   },
   projects: [
     {
