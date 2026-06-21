@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ErrorGlyph, RetryArrowIcon } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export interface RetryStateProps {
@@ -14,6 +15,7 @@ export interface RetryStateProps {
 }
 
 export function RetryState({ onRetry, autoRetry, maxAttempts = 3, theme }: RetryStateProps) {
+  const actionRef = useAutoFocus<HTMLButtonElement>(true);
   const [attempts, setAttempts] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(autoRetry ? Math.ceil(autoRetry / 1000) : 0);
   const autoRetryActive = Boolean(autoRetry) && attempts < maxAttempts;
@@ -44,7 +46,7 @@ export function RetryState({ onRetry, autoRetry, maxAttempts = 3, theme }: Retry
           title="Request failed"
           description={description}
           action={
-            <ActionButton tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={onRetry}>
+            <ActionButton ref={actionRef} tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={onRetry}>
               Retry now
             </ActionButton>
           }

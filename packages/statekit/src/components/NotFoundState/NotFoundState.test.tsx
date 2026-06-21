@@ -14,4 +14,9 @@ describe("NotFoundState", () => {
     render(<NotFoundState homeUrl="/" />);
     expect(screen.getByRole("link", { name: "Go home" })).toHaveAttribute("href", "/");
   });
+
+  it("moves focus to the home link on mount when homeUrl is given", () => {
+    render(<NotFoundState homeUrl="/" />);
+    expect(screen.getByRole("link", { name: "Go home" })).toHaveFocus();
+  });
 });

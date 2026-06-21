@@ -3,6 +3,7 @@
 import { LockGlyph, ShieldIcon } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export type AccessDeniedVariant = "lock" | "shield";
@@ -25,6 +26,7 @@ export function AccessDeniedState({
     variant === "shield"
       ? "This section requires elevated permissions."
       : `You don't have permission to view ${resource ?? "this resource"}.`;
+  const actionRef = useAutoFocus<HTMLButtonElement>(Boolean(onRequestAccess));
 
   return (
     <ThemeScope theme={theme}>
@@ -35,7 +37,11 @@ export function AccessDeniedState({
           description={description}
           maxDescriptionWidth={280}
           action={
-            onRequestAccess ? <ActionButton onClick={onRequestAccess}>Request access</ActionButton> : undefined
+            onRequestAccess ? (
+              <ActionButton ref={actionRef} onClick={onRequestAccess}>
+                Request access
+              </ActionButton>
+            ) : undefined
           }
         />
       </div>

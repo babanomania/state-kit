@@ -19,4 +19,9 @@ describe("RetryState", () => {
     render(<RetryState onRetry={() => {}} autoRetry={3000} />);
     expect(screen.getByRole("alert")).toHaveTextContent("Retrying automatically in 3 seconds…");
   });
+
+  it("moves focus to the retry button on mount", () => {
+    render(<RetryState onRetry={() => {}} />);
+    expect(screen.getByRole("button", { name: "Retry now" })).toHaveFocus();
+  });
 });

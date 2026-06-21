@@ -3,6 +3,7 @@
 import { ErrorGlyph, RetryArrowIcon } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export type ErrorStateVariant = "friendly" | "technical" | "enterprise";
@@ -35,6 +36,7 @@ const copy: Record<ErrorStateVariant, { title: string; description: string; acti
 
 export function ErrorState({ variant = "friendly", title, retry, error, theme }: ErrorStateProps) {
   const variantCopy = copy[variant];
+  const actionRef = useAutoFocus<HTMLButtonElement>(Boolean(retry));
 
   return (
     <ThemeScope theme={theme}>
@@ -56,7 +58,7 @@ export function ErrorState({ variant = "friendly", title, retry, error, theme }:
           }
           action={
             retry ? (
-              <ActionButton tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={retry}>
+              <ActionButton ref={actionRef} tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={retry}>
                 {variantCopy.action}
               </ActionButton>
             ) : undefined

@@ -19,4 +19,9 @@ describe("SessionExpiredState", () => {
     screen.getByRole("button", { name: "Sign in" }).click();
     expect(onReauth).toHaveBeenCalledTimes(1);
   });
+
+  it("moves focus to the sign-in button on mount", () => {
+    render(<SessionExpiredState onReauth={vi.fn()} />);
+    expect(screen.getByRole("button", { name: "Sign in" })).toHaveFocus();
+  });
 });

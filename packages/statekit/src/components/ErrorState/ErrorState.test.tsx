@@ -16,6 +16,16 @@ describe("ErrorState", () => {
     expect(retry).toHaveBeenCalledOnce();
   });
 
+  it("moves focus to the retry button on mount so keyboard users don't have to tab to it", () => {
+    render(<ErrorState retry={() => {}} />);
+    expect(screen.getByRole("button", { name: "Try again" })).toHaveFocus();
+  });
+
+  it("does not steal focus when there is no retry handler", () => {
+    render(<ErrorState />);
+    expect(document.body).toHaveFocus();
+  });
+
   it("shows the error stack for the technical variant", () => {
     render(<ErrorState variant="technical" error={new Error("boom")} retry={() => {}} />);
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();

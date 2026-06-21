@@ -3,6 +3,7 @@
 import { CountdownRingGlyph } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export interface TimeoutStateProps {
@@ -14,6 +15,7 @@ export interface TimeoutStateProps {
 
 export function TimeoutState({ timeoutMs = 30000, onRetry, elapsed, theme }: TimeoutStateProps) {
   const seconds = Math.round((elapsed ?? timeoutMs) / 1000);
+  const actionRef = useAutoFocus<HTMLButtonElement>(Boolean(onRetry));
 
   return (
     <ThemeScope theme={theme}>
@@ -24,7 +26,7 @@ export function TimeoutState({ timeoutMs = 30000, onRetry, elapsed, theme }: Tim
           description="The server took too long to respond."
           action={
             onRetry ? (
-              <ActionButton tone="warning" variant="outline" onClick={onRetry}>
+              <ActionButton ref={actionRef} tone="warning" variant="outline" onClick={onRetry}>
                 Retry
               </ActionButton>
             ) : undefined

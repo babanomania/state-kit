@@ -3,6 +3,7 @@
 import { ErrorGlyph, RetryArrowIcon } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export interface ServerErrorStateProps {
@@ -21,6 +22,7 @@ const statusCopy: Record<number, { label: string; description: string }> = {
 
 export function ServerErrorState({ status = 500, statusPageUrl, retry, theme }: ServerErrorStateProps) {
   const copy = statusCopy[status] ?? statusCopy[500];
+  const actionRef = useAutoFocus<HTMLButtonElement>(Boolean(retry));
 
   return (
     <ThemeScope theme={theme}>
@@ -31,7 +33,7 @@ export function ServerErrorState({ status = 500, statusPageUrl, retry, theme }: 
           description={copy.description}
           action={
             retry ? (
-              <ActionButton tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={retry}>
+              <ActionButton ref={actionRef} tone="error" variant="outline" icon={<RetryArrowIcon />} onClick={retry}>
                 Reload
               </ActionButton>
             ) : undefined

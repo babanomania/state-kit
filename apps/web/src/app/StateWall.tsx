@@ -266,6 +266,7 @@ export function StateWall() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const tiles = ref.current?.querySelectorAll<HTMLElement>("[data-flicker]");
     tiles?.forEach((el) => {
       const dur = (3.4 + Math.random() * 4.2).toFixed(2);

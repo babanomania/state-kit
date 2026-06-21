@@ -1,6 +1,6 @@
 "use client";
 
-import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
+import { forwardRef, type ButtonHTMLAttributes, type CSSProperties, type ReactNode, type Ref } from "react";
 
 export type ButtonTone = "accent" | "error" | "warning" | "success";
 export type ButtonVariant = "solid" | "outline";
@@ -22,16 +22,10 @@ const outlineTones: Record<ButtonTone, CSSProperties> = {
 };
 
 /** Real <button> (or <a> when `href` is given), themeable via CSS vars for the "accent" solid case. */
-export function ActionButton({
-  tone = "accent",
-  variant = "solid",
-  icon,
-  children,
-  className,
-  style,
-  href,
-  ...rest
-}: ActionButtonProps) {
+export const ActionButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, ActionButtonProps>(function ActionButton(
+  { tone = "accent", variant = "solid", icon, children, className, style, href, ...rest },
+  ref,
+) {
   const isSolidAccent = variant === "solid" && tone === "accent";
   const resolvedClassName = isSolidAccent
     ? `inline-flex items-center gap-2 rounded-[10px] px-[18px] py-[9px] text-[13px] font-medium shadow-sk-btn transition-opacity hover:opacity-90 ${className ?? ""}`
@@ -42,16 +36,16 @@ export function ActionButton({
 
   if (href) {
     return (
-      <a href={href} className={resolvedClassName} style={resolvedStyle}>
+      <a href={href} ref={ref as Ref<HTMLAnchorElement>} className={resolvedClassName} style={resolvedStyle}>
         {icon}
         {children}
       </a>
     );
   }
   return (
-    <button {...rest} className={resolvedClassName} style={resolvedStyle}>
+    <button {...rest} ref={ref as Ref<HTMLButtonElement>} className={resolvedClassName} style={resolvedStyle}>
       {icon}
       {children}
     </button>
   );
-}
+});

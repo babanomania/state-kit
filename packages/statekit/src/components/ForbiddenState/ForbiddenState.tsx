@@ -3,6 +3,7 @@
 import { LockGlyph } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export interface ForbiddenStateProps {
@@ -13,6 +14,7 @@ export interface ForbiddenStateProps {
 
 export function ForbiddenState({ onBack, contactUrl, theme }: ForbiddenStateProps) {
   const usingContact = Boolean(contactUrl);
+  const actionRef = useAutoFocus<HTMLButtonElement | HTMLAnchorElement>(usingContact || Boolean(onBack));
 
   return (
     <ThemeScope theme={theme}>
@@ -27,9 +29,13 @@ export function ForbiddenState({ onBack, contactUrl, theme }: ForbiddenStateProp
           }
           action={
             usingContact ? (
-              <ActionButton href={contactUrl}>Contact admin</ActionButton>
+              <ActionButton ref={actionRef} href={contactUrl}>
+                Contact admin
+              </ActionButton>
             ) : onBack ? (
-              <ActionButton onClick={onBack}>Go back</ActionButton>
+              <ActionButton ref={actionRef} onClick={onBack}>
+                Go back
+              </ActionButton>
             ) : undefined
           }
         />

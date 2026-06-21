@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CountdownRingGlyph } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export interface RateLimitedStateProps {
@@ -14,6 +15,7 @@ export interface RateLimitedStateProps {
 }
 
 export function RateLimitedState({ retryAfter, onUpgrade, limit, theme }: RateLimitedStateProps) {
+  const actionRef = useAutoFocus<HTMLButtonElement>(Boolean(onUpgrade));
   const [remaining, setRemaining] = useState(retryAfter);
 
   useEffect(() => {
@@ -37,7 +39,13 @@ export function RateLimitedState({ retryAfter, onUpgrade, limit, theme }: RateLi
           description={description}
           maxDescriptionWidth={300}
           extra={<span className="font-mono text-[12px] text-sk-muted">Retry after {remaining}s</span>}
-          action={onUpgrade ? <ActionButton onClick={onUpgrade}>View plans</ActionButton> : undefined}
+          action={
+            onUpgrade ? (
+              <ActionButton ref={actionRef} onClick={onUpgrade}>
+                View plans
+              </ActionButton>
+            ) : undefined
+          }
         />
       </div>
     </ThemeScope>

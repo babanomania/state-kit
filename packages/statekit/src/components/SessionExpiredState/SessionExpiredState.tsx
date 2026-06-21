@@ -3,6 +3,7 @@
 import { LockGlyph } from "../../icons";
 import { ActionButton } from "../../primitives/Button";
 import { StateLayout } from "../../primitives/StateLayout";
+import { useAutoFocus } from "../../primitives/useAutoFocus";
 import { ThemeScope, type ThemeInput } from "../../theme/StateProvider";
 
 export type SessionExpiredVariant = "modal" | "inline";
@@ -25,6 +26,7 @@ export function SessionExpiredState({
   theme,
 }: SessionExpiredStateProps) {
   const variantCopy = copy[variant];
+  const actionRef = useAutoFocus<HTMLButtonElement>(true);
 
   return (
     <ThemeScope theme={theme}>
@@ -34,7 +36,11 @@ export function SessionExpiredState({
           title={variantCopy.title}
           description={variantCopy.description}
           maxDescriptionWidth={280}
-          action={<ActionButton onClick={onReauth}>Sign in</ActionButton>}
+          action={
+            <ActionButton ref={actionRef} onClick={onReauth}>
+              Sign in
+            </ActionButton>
+          }
         />
       </div>
     </ThemeScope>
