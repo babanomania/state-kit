@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { EmptyState, ErrorState, OfflineState, PartialFailureState, Spinner, StateProvider, WidgetState, themes, type ThemeName } from "@babanomania/statekit";
+import { ErrorState, StateProvider, themes, type ThemeName } from "@babanomania/statekit";
 import { THEME_META } from "../lib/themeMeta";
+import { useIsDark } from "../lib/useIsDark";
 import { StateWall } from "./StateWall";
-
-const noop = () => {};
 
 type Tab = "loading" | "empty" | "error" | "offline" | "success";
 
@@ -41,30 +40,79 @@ const GALLERY = [
   { tag: "table/partial", dot: "#f7768e", title: "Partial table failure", desc: "Some rows loaded, some failed. Retry just the broken ones." },
 ];
 
+// The live-preview pane mirrors the page's light/dark mode (like the design source), so the
+// demo never shows a dark library card stranded on a light page. The actual themeable
+// components live in the Theme Showcase section below, where dark surfaces are the point.
 function PlaygroundPreview({ tab }: { tab: Tab }) {
   if (tab === "loading") {
     return (
       <div className="flex flex-col items-center gap-5">
-        <Spinner size={54} />
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" className="animate-sk-spin">
+          <circle cx="27" cy="27" r="21" className="stroke-black/[0.13] dark:stroke-white/10" strokeWidth="3.5" />
+          <path d="M27 6 a21 21 0 0 1 21 21" stroke="#8b7cff" strokeWidth="3.5" strokeLinecap="round" />
+        </svg>
         <span className="text-[14px] text-[#5d5d66] dark:text-[#9c9caa]">Loading users…</span>
       </div>
     );
   }
   if (tab === "empty") {
-    return <EmptyState title="No users yet" description="Invite your team to get started." />;
+    return (
+      <div className="flex flex-col items-center gap-[18px] text-center">
+        <div className="animate-sk-float">
+          <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+            <rect x="7" y="7" width="44" height="44" rx="10" className="stroke-[#9a9aa2] dark:stroke-[#6f6f7e]" strokeWidth="2.2" strokeDasharray="7 6" />
+            <line x1="29" y1="20" x2="29" y2="38" stroke="#8b7cff" strokeWidth="2.6" strokeLinecap="round" />
+            <line x1="20" y1="29" x2="38" y2="29" stroke="#8b7cff" strokeWidth="2.6" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div>
+          <div className="mb-1.5 text-[16px] font-semibold">No users yet</div>
+          <div className="text-[13px] text-[#5d5d66] dark:text-[#9c9caa]">Invite your team to get started.</div>
+        </div>
+      </div>
+    );
   }
   if (tab === "error") {
-    return <ErrorState variant="friendly" retry={noop} />;
+    return (
+      <div className="flex flex-col items-center gap-[18px] text-center">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" className="animate-sk-pulse">
+          <path d="M28 8 L50 46 H6 Z" stroke="#f7768e" strokeWidth="2.8" strokeLinejoin="round" />
+          <line x1="28" y1="23" x2="28" y2="34" stroke="#f7768e" strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="28" cy="40" r="1.8" fill="#f7768e" />
+        </svg>
+        <div>
+          <div className="mb-1.5 text-[16px] font-semibold">Something went wrong</div>
+          <div className="text-[13px] text-[#5d5d66] dark:text-[#9c9caa]">Failed to fetch. Retrying in 3s…</div>
+        </div>
+      </div>
+    );
   }
   if (tab === "offline") {
-    return <OfflineState autoDetect={false} showSignal />;
+    const bars: { h: number; cls: string; delay: string }[] = [
+      { h: 16, cls: "bg-[#4fd6e0]", delay: "0s" },
+      { h: 28, cls: "bg-[#9a9aa2] dark:bg-[#6f6f7e]", delay: ".3s" },
+      { h: 40, cls: "bg-[#d2d2cd] dark:bg-[#33333d]", delay: ".6s" },
+    ];
+    return (
+      <div className="flex flex-col items-center gap-[18px] text-center">
+        <div className="flex items-end gap-1.5" style={{ height: 48 }}>
+          {bars.map((b) => (
+            <div key={b.h} className={`w-2.5 animate-sk-signal rounded-sm ${b.cls}`} style={{ height: b.h, animationDelay: b.delay }} />
+          ))}
+        </div>
+        <div>
+          <div className="mb-1.5 text-[16px] font-semibold">You&apos;re offline</div>
+          <div className="text-[13px] text-[#5d5d66] dark:text-[#9c9caa]">Reconnecting automatically…</div>
+        </div>
+      </div>
+    );
   }
   return (
-    <div className="flex w-full max-w-[280px] flex-col gap-2.5">
+    <div className="flex w-full max-w-[280px] animate-sk-fadeup flex-col gap-2.5">
       {ROWS.map((r) => (
         <div
           key={r.w}
-          className="flex items-center gap-3 rounded-[10px] border border-black/[0.07] bg-[#f3f3ef] px-3.5 py-[11px] dark:border-white/[0.07] dark:bg-[#15151d]"
+          className="flex items-center gap-3 rounded-[10px] border border-black/[0.07] bg-[#eceae6] px-3.5 py-[11px] dark:border-white/[0.07] dark:bg-[#15151d]"
         >
           <div className="h-[30px] w-[30px] flex-none rounded-full bg-gradient-to-br from-[#8b7cff] to-[#4fd6e0]" />
           <div className="flex-1">
@@ -80,7 +128,11 @@ function PlaygroundPreview({ tab }: { tab: Tab }) {
 
 export function LandingPage() {
   const [tab, setTab] = useState<Tab>("loading");
-  const [theme, setTheme] = useState<ThemeName>("aurora");
+  const dark = useIsDark();
+  // Default the showcase to the theme that matches the page: the light `enterprise`
+  // theme in light mode, `aurora` in dark mode. A manual pick (pill) overrides it.
+  const [picked, setPicked] = useState<ThemeName | null>(null);
+  const theme = picked ?? (dark ? "aurora" : "enterprise");
   const themeMeta = THEME_META.find((t) => t.id === theme) ?? THEME_META[1];
   const tokens = themes[theme];
 
@@ -126,7 +178,7 @@ export function LandingPage() {
       <section className="mx-auto max-w-[1120px] px-10 py-[50px]">
         <div className="mb-10 text-center">
           <p className="mb-3 font-mono text-[12px] uppercase tracking-[0.1em] text-[#8b7cff]">Playground</p>
-          <h2 className="mb-3 text-[42px] font-semibold tracking-[-0.03em]">Edit. See it instantly.</h2>
+          <h2 className="mb-3 text-[42px] font-semibold tracking-[-0.03em]">Pick a state. See it instantly.</h2>
           <p className="text-[17px] text-[#5d5d66] dark:text-[#9c9caa]">Drop a state into any boundary. It just works.</p>
         </div>
 
@@ -161,9 +213,7 @@ export function LandingPage() {
           </div>
           <div className="relative flex min-h-[340px] items-center justify-center bg-[radial-gradient(ellipse_at_50%_40%,#eceae6,#f7f7f4)] p-8 dark:bg-[radial-gradient(ellipse_at_50%_40%,#15151d,#0a0a0e)]">
             <span className="absolute right-[18px] top-4 font-mono text-[11px] text-[#9a9aa2] dark:text-[#6f6f7e]">live preview</span>
-            <StateProvider theme="aurora">
-              <PlaygroundPreview tab={tab} />
-            </StateProvider>
+            <PlaygroundPreview tab={tab} />
           </div>
         </div>
       </section>
@@ -183,14 +233,17 @@ export function LandingPage() {
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setTheme(t.id)}
+                onClick={() => setPicked(t.id)}
                 className={`flex items-center gap-2 rounded-full border px-5 py-[9px] text-[14px] transition-colors ${
                   active
                     ? "border-black/20 bg-black/[0.04] text-[#1a1a1d] dark:border-white/20 dark:bg-white/[0.06] dark:text-[#e9e9ef]"
                     : "border-black/[0.11] text-[#5d5d66] dark:border-white/10 dark:text-[#9c9caa]"
                 }`}
               >
-                <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ background: t.dot }} />
+                <span
+                  className="h-2.5 w-2.5 flex-none rounded-full border border-black/10 dark:border-white/15"
+                  style={{ background: t.dot }}
+                />
                 {t.label}
               </button>
             );
@@ -241,26 +294,61 @@ export function LandingPage() {
           <h2 className="mb-3 text-[42px] font-semibold tracking-[-0.03em]">States most libraries forget.</h2>
           <p className="text-[17px] text-[#5d5d66] dark:text-[#9c9caa]">Tables, dashboards and widgets that fail gracefully.</p>
         </div>
-        <StateProvider theme="aurora">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.4fr_1fr]">
-            <PartialFailureState succeeded={2} failed={2} onRetryFailed={noop} />
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-1 flex-col justify-center gap-1.5 rounded-2xl border border-black/[0.08] bg-[#f7f7f4] p-[22px] dark:border-white/[0.07] dark:bg-[#0a0a0e]">
-                <span className="text-[13px] text-[#5d5d66] dark:text-[#9c9caa]">Revenue</span>
-                <div className="flex h-[54px] items-end gap-[5px]">
-                  {[40, 70, 55, 85].map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 animate-sk-bar rounded-sm bg-[#e4e4df] dark:bg-[#26262f]"
-                      style={{ height: `${h}%`, animationDelay: `${i * 0.2}s` }}
-                    />
-                  ))}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.4fr_1fr]">
+          {/* Table with partial row failures */}
+          <div className="overflow-hidden rounded-2xl border border-black/[0.13] bg-[#f7f7f4] p-[22px] dark:border-white/10 dark:bg-[#0a0a0e]">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-[14px] font-semibold">Transactions</span>
+              <span className="rounded-md bg-[#f7768e]/10 px-2.5 py-1 font-mono text-[11px] text-[#f7768e]">2 rows failed</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              {[
+                { ok: true },
+                { ok: false, delay: "0s" },
+                { ok: true },
+                { ok: false, delay: "1.4s" },
+              ].map((row, i) => (
+                <div
+                  key={i}
+                  className={`grid grid-cols-[1fr_1fr_80px] items-center gap-3 rounded-[9px] px-3.5 py-[11px] ${
+                    row.ok ? "bg-[#eceae6] dark:bg-[#15151d]" : "animate-sk-rowfail"
+                  }`}
+                  style={row.ok ? undefined : { animationDelay: row.delay }}
+                >
+                  <div className="h-[9px] rounded-sm bg-[#d2d2cd] dark:bg-[#33333d]" />
+                  <div className="h-[9px] rounded-sm bg-[#e4e4df] dark:bg-[#26262f]" />
+                  <span className={`font-mono text-[11px] ${row.ok ? "text-[#5ec98a]" : "text-[#f7768e]"}`}>{row.ok ? "ok" : "failed"}</span>
                 </div>
-              </div>
-              <WidgetState status="error" onRetry={noop} />
+              ))}
             </div>
           </div>
-        </StateProvider>
+          {/* Widget column: revenue + failed widget */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-1 flex-col justify-center gap-1.5 rounded-2xl border border-black/[0.13] bg-[#f7f7f4] p-[22px] dark:border-white/10 dark:bg-[#0a0a0e]">
+              <span className="text-[13px] text-[#5d5d66] dark:text-[#9c9caa]">Revenue</span>
+              <div className="flex h-[54px] items-end gap-[5px]">
+                {[40, 70, 55, 85].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 animate-sk-bar rounded-sm bg-[#e4e4df] dark:bg-[#26262f]"
+                    style={{ height: `${h}%`, animationDelay: `${i * 0.2}s` }}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-1 flex-col items-center justify-center gap-2.5 rounded-2xl border border-[#f7768e]/25 bg-[#f7f7f4] p-[22px] text-center dark:bg-[#0a0a0e]">
+              <svg width="28" height="28" viewBox="0 0 48 48" fill="none" className="animate-sk-pulse">
+                <path d="M24 6 L44 40 H4 Z" stroke="#f7768e" strokeWidth="3" strokeLinejoin="round" />
+                <line x1="24" y1="19" x2="24" y2="29" stroke="#f7768e" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="24" cy="34" r="1.8" fill="#f7768e" />
+              </svg>
+              <span className="text-[13px] text-[#3c3c44] dark:text-[#c9c9d6]">Widget unavailable</span>
+              <button type="button" className="font-mono text-[11px] text-[#9a9aa2] transition-colors hover:text-[#1a1a1d] dark:text-[#6f6f7e] dark:hover:text-[#e9e9ef]">
+                retry →
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* DOCS PREVIEW — DataStateBoundary flagship */}
@@ -337,19 +425,73 @@ export function LandingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-5 border-t border-black/[0.08] px-10 py-10 dark:border-white/[0.07]">
-        <div className="flex items-center gap-2.5">
-          <div className="h-[18px] w-[18px] rotate-45 rounded-[4px] bg-gradient-to-br from-[#8b7cff] to-[#4fd6e0]" />
-          <span className="font-semibold">StateKit</span>
-          <span className="ml-2 text-[13px] text-[#9a9aa2] dark:text-[#6f6f7e]">© 2026 — Motion for application states</span>
+      <footer className="border-t border-black/[0.08] dark:border-white/[0.07]">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="mb-3 flex items-center gap-2.5">
+              <div className="h-[18px] w-[18px] rotate-45 rounded-[4px] bg-gradient-to-br from-[#8b7cff] to-[#4fd6e0]" />
+              <span className="font-semibold">StateKit</span>
+            </div>
+            <p className="max-w-[220px] text-[13px] leading-relaxed text-[#5d5d66] dark:text-[#9c9caa]">
+              Motion for application states. 50+ components, one package.
+            </p>
+          </div>
+
+          <div>
+            <div className="mb-3.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[#9a9aa2] dark:text-[#6f6f7e]">Product</div>
+            <div className="flex flex-col gap-2.5 text-[14px] text-[#5d5d66] dark:text-[#9c9caa]">
+              <Link href="/components" className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]">
+                Components
+              </Link>
+              <Link href="/motion" className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]">
+                Motion
+              </Link>
+              <Link href="/themes" className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]">
+                Themes
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-3.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[#9a9aa2] dark:text-[#6f6f7e]">Resources</div>
+            <div className="flex flex-col gap-2.5 text-[14px] text-[#5d5d66] dark:text-[#9c9caa]">
+              <a
+                href="https://github.com/babanomania/state-kit"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://www.npmjs.com/package/@babanomania/statekit"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]"
+              >
+                npm
+              </a>
+              <a
+                href="https://github.com/babanomania/state-kit/releases"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]"
+              >
+                Releases
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-3.5 font-mono text-[11px] uppercase tracking-[0.1em] text-[#9a9aa2] dark:text-[#6f6f7e]">Install</div>
+            <div className="rounded-lg border border-black/[0.08] bg-black/[0.03] px-3.5 py-2.5 font-mono text-[12.5px] text-[#1a1a1d] dark:border-white/10 dark:bg-white/[0.04] dark:text-[#e9e9ef]">
+              npm i @babanomania/statekit
+            </div>
+          </div>
         </div>
-        <div className="flex gap-6 text-[14px] text-[#5d5d66] dark:text-[#9c9caa]">
-          <Link href="/components" className="hover:text-[#1a1a1d] dark:hover:text-[#e9e9ef]">
-            Docs
-          </Link>
-          <span>GitHub</span>
-          <span>Changelog</span>
-          <span>Discord</span>
+
+        <div className="mx-auto max-w-[1200px] border-t border-black/[0.06] px-10 py-5 text-[13px] text-[#9a9aa2] dark:border-white/[0.05] dark:text-[#6f6f7e]">
+          © 2026 StateKit — Motion for application states.
         </div>
       </footer>
     </main>

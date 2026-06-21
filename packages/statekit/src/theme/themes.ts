@@ -45,11 +45,13 @@ export const themes = {
     },
     "glass",
   ),
+  // The one light built-in theme: a clean white surface with the enterprise blue accent.
+  // createTheme reads the surface luminance and auto-derives dark text/muted colors.
   enterprise: createTheme(
     {
       accent: "#4c8dff",
-      surface: "#161b22",
-      border: "rgba(255,255,255,0.12)",
+      surface: "#ffffff",
+      border: "rgba(0,0,0,0.1)",
       radius: 8,
       blur: 0,
       elevation: "soft",

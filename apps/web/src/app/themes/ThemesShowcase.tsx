@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { EmptyState, ErrorState, Spinner, StateProvider, SuccessState, themes, type ThemeName } from "@babanomania/statekit";
 import { THEME_META } from "../../lib/themeMeta";
+import { useIsDark } from "../../lib/useIsDark";
 
 const noop = () => {};
 
@@ -15,7 +16,11 @@ function ThemeCard({ children }: { children: React.ReactNode }) {
 }
 
 export function ThemesShowcase() {
-  const [selected, setSelected] = useState<ThemeName>("aurora");
+  const dark = useIsDark();
+  // Match the page: light mode previews the light `enterprise` theme by default,
+  // dark mode previews `aurora`. A manual pick overrides this.
+  const [picked, setPicked] = useState<ThemeName | null>(null);
+  const selected = picked ?? (dark ? "aurora" : "enterprise");
   const meta = THEME_META.find((t) => t.id === selected) ?? THEME_META[1];
   const tokens = themes[selected];
 
@@ -69,14 +74,17 @@ export function ThemesShowcase() {
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setSelected(t.id)}
+                onClick={() => setPicked(t.id)}
                 className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-[14px] transition-colors ${
                   active
                     ? "border-black/20 bg-black/[0.04] text-[#1a1a1d] dark:border-white/20 dark:bg-white/[0.06] dark:text-[#e9e9ef]"
                     : "border-black/[0.11] text-[#5d5d66] dark:border-white/10 dark:text-[#9c9caa]"
                 }`}
               >
-                <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ background: t.dot }} />
+                <span
+                  className="h-2.5 w-2.5 flex-none rounded-full border border-black/10 dark:border-white/15"
+                  style={{ background: t.dot }}
+                />
                 {t.label}
               </button>
             );
@@ -174,7 +182,7 @@ export function ThemesShowcase() {
             <button
               key={t.id}
               type="button"
-              onClick={() => setSelected(t.id)}
+              onClick={() => setPicked(t.id)}
               className="rounded-2xl p-[3px] transition-colors"
               style={{ background: t.id === selected ? t.dot : "transparent" }}
             >
@@ -185,7 +193,7 @@ export function ThemesShowcase() {
                   </ThemeCard>
                 </StateProvider>
                 <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#5d5d66] dark:text-[#9c9caa]">
-                  <span className="h-2 w-2 rounded-full" style={{ background: t.dot }} />
+                  <span className="h-2 w-2 rounded-full border border-black/10 dark:border-white/15" style={{ background: t.dot }} />
                   {t.label}
                 </div>
               </div>

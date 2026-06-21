@@ -12,5 +12,5 @@ export const THEME_META: ThemeMeta[] = [
   { id: "aurora", label: "Aurora", dot: "#8b7cff", desc: "Ambient gradients and a soft violet glow." },
   { id: "neon", label: "Neon", dot: "#4fd6e0", desc: "High-contrast cyber glow on near-black." },
   { id: "glass", label: "Glass", dot: "#ffffff", desc: "Frosted liquid glass with deep blur." },
-  { id: "enterprise", label: "Enterprise", dot: "#4c8dff", desc: "Calm, dense and dependable. GitHub-grade." },
+  { id: "enterprise", label: "Enterprise", dot: "#4c8dff", desc: "The light theme — calm, dense and dependable." },
 ];

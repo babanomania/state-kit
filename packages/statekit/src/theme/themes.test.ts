@@ -44,9 +44,13 @@ describe("text color contrast accounts for surface translucency", () => {
     expect(themes.glass.cssVars["--sk-muted"]).toBe("#a7a7b4");
   });
 
-  it("opaque dark surfaces (minimal, neon, enterprise) get light text", () => {
+  it("opaque dark surfaces (minimal, neon) get light text", () => {
     expect(themes.minimal.cssVars["--sk-text"]).toBe("#f3f3f6");
     expect(themes.neon.cssVars["--sk-text"]).toBe("#f3f3f6");
-    expect(themes.enterprise.cssVars["--sk-text"]).toBe("#f3f3f6");
+  });
+
+  it("enterprise's light surface gets dark text", () => {
+    expect(themes.enterprise.cssVars["--sk-text"]).toBe("#1a1a1d");
+    expect(themes.enterprise.cssVars["--sk-muted"]).toBe("#5d5d66");
   });
 });

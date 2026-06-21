@@ -51,6 +51,10 @@ module.exports = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-7px)" },
         },
+        "sk-float2": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(7px)" },
+        },
         "sk-bar": {
           "0%, 100%": { transform: "scaleY(.3)", opacity: ".45" },
           "50%": { transform: "scaleY(1)", opacity: "1" },
@@ -174,6 +178,7 @@ module.exports = {
         "sk-breathe": "sk-breathe 2.4s ease-in-out infinite",
         "sk-shimmer": "sk-shimmer 1.4s linear infinite",
         "sk-float": "sk-float 3s ease-in-out infinite",
+        "sk-float2": "sk-float2 3.4s ease-in-out infinite",
         "sk-bar": "sk-bar 1.1s ease-in-out infinite",
         "sk-signal": "sk-signal 3s ease-in-out infinite",
         "sk-glitch": "sk-glitch 3s steps(1,end) infinite",

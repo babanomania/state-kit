@@ -26,7 +26,7 @@ function AlertIcon({ color }: { color: string }) {
 function EmptyBoxIcon({ withLines = true, float2 = false }: { withLines?: boolean; float2?: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 50 50" fill="none" className={float2 ? "animate-sk-float2" : "animate-sk-float"}>
-      <rect x="6" y="6" width="38" height="38" rx="8" className="stroke-[#9a9aa2] dark:stroke-[var(--sw-faint)]" strokeWidth="2.2" strokeDasharray="6 5" />
+      <rect x="6" y="6" width="38" height="38" rx="8" className="stroke-[var(--sw-faint)]" strokeWidth="2.2" strokeDasharray="6 5" />
       {withLines && (
         <>
           <line x1="25" y1="18" x2="25" y2="32" stroke="#8b7cff" strokeWidth="2.4" strokeLinecap="round" />
@@ -279,13 +279,17 @@ export function StateWall() {
   return (
     <div
       ref={ref}
-      className="absolute inset-0 grid grid-cols-7 auto-rows-fr gap-2.5 p-4 [--sw-bar:#d2d2cd] [--sw-bordersoft:rgba(0,0,0,0.13)] [--sw-elev:#eceae6] [--sw-faint:#9a9aa2] [--sw-text:#1a1a1d] dark:[--sw-bar:#33333d] dark:[--sw-bordersoft:rgba(255,255,255,0.1)] dark:[--sw-elev:#15151d] dark:[--sw-faint:#6f6f7e] dark:[--sw-text:#e9e9ef] [--sw-bar2:#e4e4df] dark:[--sw-bar2:#26262f]"
+      className="absolute inset-0 grid grid-cols-7 auto-rows-fr gap-2.5 p-4 [--sw-bar:#b8b8b2] [--sw-bordersoft:rgba(0,0,0,0.13)] [--sw-elev:#eceae6] [--sw-faint:#86868f] [--sw-text:#1a1a1d] dark:[--sw-bar:#33333d] dark:[--sw-bordersoft:rgba(255,255,255,0.1)] dark:[--sw-elev:#15151d] dark:[--sw-faint:#6f6f7e] dark:[--sw-text:#e9e9ef] [--sw-bar2:#c5c5c0] dark:[--sw-bar2:#26262f]"
     >
       {TILES.map((tile, i) => (
         <div
           key={i}
           data-flicker
-          className="flex flex-col items-center justify-center gap-1.5 rounded-[10px] border border-black/[0.08] bg-white dark:border-white/[0.07] dark:bg-[#0d0d12]"
+          // `animate-sk-flicker` is here so Tailwind keeps the @keyframes sk-flicker in the
+          // compiled CSS (it would otherwise be tree-shaken, since the real per-tile timing is
+          // assigned via inline style in the effect below). Under prefers-reduced-motion the
+          // preset neutralizes the class and the effect skips the inline override → tiles stay lit.
+          className="flex animate-sk-flicker flex-col items-center justify-center gap-1.5 rounded-[10px] border border-black/[0.08] bg-white dark:border-white/[0.07] dark:bg-[#0d0d12]"
         >
           {tile.icon}
           <span className="font-mono text-[9px] text-[#5d5d66] dark:text-[#6f6f7e]">{tile.label}</span>
